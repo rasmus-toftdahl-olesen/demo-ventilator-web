@@ -12,6 +12,14 @@ header {
     background-color: pink;
     color: white;
 }
+header img {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    margin: 1em;
+    width: 100px;
+    color: white;
+}
 main {
     padding: 1em;
 }
@@ -19,6 +27,9 @@ footer {
     background-color: lightgray;
     color: gray;
     padding: 1em;
+}
+#state {
+    width: 90%;
 }
 #state td {
     text-align: center;
