@@ -7,6 +7,7 @@ from os import path
 import serial
 import io
 import time
+import datetime
 
 sys.path.append(path.join(path.dirname(__file__), '..', 'sequanto-automation', 'client', 'python', 'lib'))
 
@@ -70,9 +71,11 @@ def json_temp():
 
 @app.route('/json/state')
 def json_state():
-	return jsonify(on = ventilator_on.value,
-		       set_point = ventilator_set_point.value,
-		       celcius = temp_celcius.value)
+    ctime = datetime.datetime.now().time()
+    return jsonify(on = ventilator_on.value,
+                   time = '%.2i:%.2i:%.2i' % (ctime.hour, ctime.minute, ctime.second),
+                   set_point = ventilator_set_point.value,
+                   celcius = temp_celcius.value)
 
 app.run(debug=True,host='0.0.0.0',port=80)
 

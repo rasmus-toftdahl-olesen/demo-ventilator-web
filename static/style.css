@@ -21,6 +21,7 @@ footer {
     padding: 1em;
 }
 #state td {
+    text-align: center;
     font-size: 400%;
     padding: 1em;
 }

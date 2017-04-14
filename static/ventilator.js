@@ -23,6 +23,7 @@ function refreshState()
     console.log('refresh state');
     ventilatorElement = document.getElementById('state-ventilator');
     temperatureElement = document.getElementById('state-temperature');
+    timeElement = document.getElementById('state-time');
     setPointElement = document.getElementById('state-set-point');
 
     fetch('/json/state', { method: 'get' }).then(function(response) {
@@ -38,11 +39,15 @@ function refreshState()
 		ventilatorElement.innerText = 'OFF';
 		ventilatorElement.style = '';
 	    }
+	    timeElement.innerText = data.time;
 	    setPointElement.innerText = data.set_point;
 	} );
     }).catch(function(err) {
 	// Error :(
 	ventilatorElement.innerText = 'ERROR';
+	temperatureElement.innerText = 'ERROR';
+	timeElement.innerText = 'ERROR';
+	setPointElement.innerText = 'ERROR';
     });
 }
 
