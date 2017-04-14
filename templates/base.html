@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="icon" type="image/svg+xml" href="/static/fire.svg">
+    <script src="/static/ventilator.js"></script>
+    <title>{% block title %}Ventilator{% endblock %}</title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Ventilator</a></h1>
+      <img src="/static/fire.svg" />
+    </header>
+    
+    <main>
+
+      {% block content %}
+      {% endblock %}
+
+    </main>
+
+    <footer>
+      This is a <a href="http://seqzap.com">SeqZap</a> demo project by CIM Software Testing (<a href="http://github.com/seqzap/demo-ventilator-web/">demo source</a>).
+    </footer>
+  </body>
+
+</html>

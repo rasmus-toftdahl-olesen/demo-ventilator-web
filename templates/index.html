@@ -1,19 +1,6 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <link rel="stylesheet" href="/static/style.css">
-    <link rel="icon" type="image/svg+xml" href="/static/fire.svg">
-    <script src="/static/ventilator.js"></script>
-    <title>Ventilator</title>
-  </head>
-  <body>
-    <header>
-      <h1>Ventilator</h1>
-      <img src="/static/fire.svg" />
-    </header>
-    
-    <main>
+{% extends "base.html" %}
 
+{% block content %}
       <table id="state">
 	<tr><th>Ventilator</th><th>Temperature</th></tr>	
 	<tr><td id="state-ventilator">---</td><td id="state-temperature">---</td></tr>
@@ -32,14 +19,7 @@
       </table>
       -->
       <nav>
-	<a href="/configure">Configure &gt;&gt;&gt;</a>
+	<a href="/configure">Configure Set Points &gt;&gt;&gt;</a>
       </nav>
+{% endblock %}
 
-    </main>
-
-    <footer>
-      This is a <a href="http://seqzap.com">SeqZap</a> demo project by CIM Software Testing (<a href="http://github.com/seqzap/demo-ventilator-web/">demo source</a>).
-    </footer>
-  </body>
-
-</html>

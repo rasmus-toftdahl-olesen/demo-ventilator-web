@@ -58,8 +58,12 @@ app = Flask(__name__)
 def hello():
 	return render_template('index.html')
 
+@app.route('/raw')
+def raw():
+	return render_template('raw.html')
+
 @app.route('/static/<path:path>')
-def send_js(path):
+def send_static(path):
     return send_from_directory('static', path)
 
 @app.route('/json/temp')

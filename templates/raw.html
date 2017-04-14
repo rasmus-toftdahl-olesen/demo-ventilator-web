@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Raw Ventilator Values{% endblock %}
+
+{% block content %}
+      <h2>Current Temperature</h2>
+      
+      <table id="current-temperature-table">
+	<tr><th>Temperature</th><td id="current-temperature">---</td></tr>
+	<tr><th>Raw</th><td id="current-raw">---</td></tr>
+	<tr><th>Voltage</th><td id="current-voltage">---</td></tr>
+	<tr><th>Percentage</th><td id="current-percentage">---</td></tr>
+      </table>
+{% endblock %}
+

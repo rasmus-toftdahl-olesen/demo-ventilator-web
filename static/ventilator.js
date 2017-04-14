@@ -53,7 +53,13 @@ function refreshState()
 
 function onLoad()
 {
-    //setInterval(refreshCurrent, 3000);
-    setInterval(refreshState, 3000);
+    if ( window.location.pathname == '/raw' )
+    {
+	setInterval(refreshCurrent, 3000);
+    }
+    else
+    {
+	setInterval(refreshState, 3000);
+    }
 }
 window.onload = onLoad;
