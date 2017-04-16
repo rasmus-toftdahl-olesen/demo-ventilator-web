@@ -18,8 +18,15 @@ function refreshCurrent()
     });
 }
 
+var refresh_state_in_progress = false;
 function refreshState()
 {
+    if ( refresh_state_in_progress )
+    {
+	return;
+    }
+    refresh_state_in_progress = true;
+    
     console.log('refresh state');
     ventilatorElement = document.getElementById('state-ventilator');
     temperatureElement = document.getElementById('state-temperature');
@@ -41,6 +48,7 @@ function refreshState()
 	    }
 	    timeElement.innerText = data.time;
 	    setPointElement.innerText = data.set_point;
+	    refresh_state_in_progress = false;
 	} );
     }).catch(function(err) {
 	// Error :(
@@ -48,6 +56,7 @@ function refreshState()
 	temperatureElement.innerText = 'ERROR';
 	timeElement.innerText = 'ERROR';
 	setPointElement.innerText = 'ERROR';
+	refresh_state_in_progress = false;
     });
 }
 
@@ -57,7 +66,7 @@ function onLoad()
     {
 	setInterval(refreshCurrent, 3000);
     }
-    else
+    else if ( window.location.pathname == '/' )
     {
 	setInterval(refreshState, 3000);
     }

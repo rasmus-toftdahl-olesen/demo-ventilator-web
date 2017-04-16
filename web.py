@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, request
 import sys
 import os
 from os import path
@@ -52,6 +52,9 @@ temp_volt = io_client.find('temperature', 'volt')
 temp_celcius = io_client.find('temperature', 'celcius')
 temp_percentage = io_client.find('temperature', 'percentage')
 
+
+set_points = [30,]*24
+
 app = Flask(__name__)
 
 @app.route('/')
@@ -61,6 +64,15 @@ def hello():
 @app.route('/raw')
 def raw():
 	return render_template('raw.html')
+
+@app.route('/configure', methods=['GET', 'POST'])
+def configure():
+    if request.form:
+        for i in range(23):
+            name = 'hour-%i' % i
+            if name in request.form:
+                set_points[i] = int(request.form[name])
+    return render_template('configure.html', set_points = set_points)
 
 @app.route('/static/<path:path>')
 def send_static(path):
