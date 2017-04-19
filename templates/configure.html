@@ -11,7 +11,7 @@
 	  {% for i in range(24) %}
 	  <tr><td>{{ i }}:00-{{ i }}:59</td><td><input type="text" name="hour-{{ i }}" value="{{ set_points[i] }}" /></td></tr>
 	  {% endfor %}
-	  <tr><td colspan="2" align="right"><input type="submit" /></td></tr>
+	  <tr><td colspan="2" align="right"><input type="submit" name="save" value="Save" /></td></tr>
 	</table>
       </form>
 
