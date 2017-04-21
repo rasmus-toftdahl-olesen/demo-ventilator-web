@@ -120,5 +120,5 @@ def json_state():
                    set_point = update_thread.set_point,
                    celcius = update_thread.celcius)
 
-app.run(host='0.0.0.0',port=80)
+app.run(host='0.0.0.0',port=80, threaded=True)
 
