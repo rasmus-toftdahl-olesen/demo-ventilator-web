@@ -4,7 +4,6 @@ from flask import Flask, render_template, jsonify, request
 import sys
 import os
 from os import path
-import serial
 import io
 import time
 import datetime
@@ -12,32 +11,7 @@ import threading
 
 sys.path.append(path.join(path.dirname(__file__), '..', 'sequanto-automation', 'client', 'python', 'lib'))
 
-from sequanto.automation import Client, AutomationObject
-
-class SerialWrapper ( io.TextIOBase ):
-    def __init__ ( self, _serial ):
-        io.TextIOBase.__init__ ( self )
-        self.m_serial = _serial
-
-    def readline ( self ):
-        ret = ''
-        while True:
-            c = self.m_serial.read(1)
-            if c == '\n':
-                return ret
-            elif c == '\r':
-                continue
-            else:
-                ret += c
-
-    def write ( self, _data ):
-        self.m_serial.write ( _data )
-
-#def print_obj(obj, indent = 0):
-#	print '  ' * indent, obj.name, obj.type
-#	for child in obj.children:
-#		print_obj(child, indent + 1)
-#print_obj(io_client.root)
+from sequanto.automation import Client
 
 class UpdateThread(threading.Thread):
     def __init__ ( self ):
@@ -52,20 +26,18 @@ class UpdateThread(threading.Thread):
         self.percentage = -1
     
     def run( self ):
-        ser = serial.Serial('/dev/ttyACM0', 57600, timeout = 1)
-
+        io_client = Client ('/dev/ttyACM0', _log = False)
+        
         # Wait for IO board to boot
         time.sleep(5)
-
-        io_client = Client ( SerialWrapper(ser) )
-
+        
         ventilator_on = io_client.find('ventilator', 'on')
         ventilator_set_point = io_client.find('ventilator', 'set_point')
         temp_raw = io_client.find('temperature', 'raw')
         temp_volt = io_client.find('temperature', 'volt')
         temp_celcius = io_client.find('temperature', 'celcius')
         temp_percentage = io_client.find('temperature', 'percentage')
-
+        
         while True:
             chour = datetime.datetime.now().time().hour
             ventilator_set_point.value = self.set_points[chour]
@@ -77,7 +49,7 @@ class UpdateThread(threading.Thread):
             self.celcius = temp_celcius.value
             self.percentage = temp_percentage.value
             
-            time.sleep(5)
+            time.sleep(1)
 
 update_thread = UpdateThread()
 update_thread.start()
