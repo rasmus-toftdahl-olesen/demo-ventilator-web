@@ -20,7 +20,7 @@ client = None
 while True:
     try:
         if not client:
-            client = Client('/dev/ttyACM0', _log = False)
+            client = Client('/dev/ttyACM0', _log = True)
             print 'Connected, wiating 5 seconds for Arduino to boot'
             time.sleep(5)
             objs = [child for child in client.find('temperature').children]

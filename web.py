@@ -26,30 +26,34 @@ class UpdateThread(threading.Thread):
         self.percentage = -1
     
     def run( self ):
-        io_client = Client ('/dev/ttyACM0', _log = False)
-        
-        # Wait for IO board to boot
-        time.sleep(5)
-        
-        ventilator_on = io_client.find('ventilator', 'on')
-        ventilator_set_point = io_client.find('ventilator', 'set_point')
-        temp_raw = io_client.find('temperature', 'raw')
-        temp_volt = io_client.find('temperature', 'volt')
-        temp_celcius = io_client.find('temperature', 'celcius')
-        temp_percentage = io_client.find('temperature', 'percentage')
-        
         while True:
-            chour = datetime.datetime.now().time().hour
-            ventilator_set_point.value = self.set_points[chour]
-            
-            self.on = ventilator_on.value
-            self.set_point = ventilator_set_point.value
-            self.raw = temp_raw.value
-            self.volt = temp_volt.value
-            self.celcius = temp_celcius.value
-            self.percentage = temp_percentage.value
-            
-            time.sleep(1)
+            try:
+                io_client = Client ('/dev/ttyACM0', _log = False)
+
+                # Wait for IO board to boot
+                time.sleep(5)
+
+                ventilator_on = io_client.find('ventilator', 'on')
+                ventilator_set_point = io_client.find('ventilator', 'set_point')
+                temp_raw = io_client.find('temperature', 'raw')
+                temp_volt = io_client.find('temperature', 'volt')
+                temp_celcius = io_client.find('temperature', 'celcius')
+                temp_percentage = io_client.find('temperature', 'percentage')
+
+                while True:
+                    chour = datetime.datetime.now().time().hour
+                    ventilator_set_point.value = self.set_points[chour]
+
+                    self.on = ventilator_on.value
+                    self.set_point = ventilator_set_point.value
+                    self.raw = temp_raw.value
+                    self.volt = temp_volt.value
+                    self.celcius = temp_celcius.value
+                    self.percentage = temp_percentage.value
+
+                    time.sleep(1)
+            except:
+                time.sleep(10)
 
 update_thread = UpdateThread()
 update_thread.start()
