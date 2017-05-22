@@ -24,7 +24,8 @@ class UpdateThread(threading.Thread):
         self.volt = -1
         self.celcius = -1
         self.percentage = -1
-    
+        self.alarm = False
+
     def run( self ):
         while True:
             try:
@@ -39,6 +40,7 @@ class UpdateThread(threading.Thread):
                 temp_volt = io_client.find('temperature', 'volt')
                 temp_celcius = io_client.find('temperature', 'celcius')
                 temp_percentage = io_client.find('temperature', 'percentage')
+                alarm_on = io_client.find('alarm', 'on')
 
                 while True:
                     chour = datetime.datetime.now().time().hour
@@ -50,7 +52,8 @@ class UpdateThread(threading.Thread):
                     self.volt = temp_volt.value
                     self.celcius = temp_celcius.value
                     self.percentage = temp_percentage.value
-
+                    self.alarm = alarm_on.value
+                    
                     time.sleep(1)
             except:
                 time.sleep(10)
@@ -92,9 +95,13 @@ def json_temp():
 def json_state():
     ctime = datetime.datetime.now().time()
     return jsonify(on = update_thread.on,
+                   alarm = update_thread.alarm,
                    time = '%.2i:%.2i:%.2i' % (ctime.hour, ctime.minute, ctime.second),
                    set_point = update_thread.set_point,
                    celcius = update_thread.celcius)
 
-app.run(host='0.0.0.0',port=80, threaded=True)
+if '--debug' in sys.argv:
+    app.run(host='0.0.0.0',port=8080, threaded=True, debug=True)
+else:
+    app.run(host='0.0.0.0',port=80, threaded=True)
 

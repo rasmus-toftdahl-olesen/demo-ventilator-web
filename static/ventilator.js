@@ -36,7 +36,12 @@ function refreshState()
     fetch('/json/state', { method: 'get' }).then(function(response) {
 	response.json().then(function(data) {
 	    temperatureElement.innerText = data.celcius;
-	    if ( data.on )
+	    if ( data.alarm )
+	    {
+		ventilatorElement.innerText = 'ALARM';
+		ventilatorElement.style = 'background-color: red;';
+	    }
+	    else if ( data.on )
 	    {
 		ventilatorElement.innerText = 'ON';
 		ventilatorElement.style = 'background-color: lightgreen;';
@@ -64,11 +69,11 @@ function onLoad()
 {
     if ( window.location.pathname == '/raw' )
     {
-	setInterval(refreshCurrent, 3000);
+	setInterval(refreshCurrent, 1000);
     }
     else if ( window.location.pathname == '/' )
     {
-	setInterval(refreshState, 3000);
+	setInterval(refreshState, 1000);
     }
 }
 window.onload = onLoad;
